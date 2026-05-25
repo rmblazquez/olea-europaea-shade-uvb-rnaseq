@@ -1,7 +1,7 @@
 ## Script for RNA-seq analysis in rmblazquez@ORDENADORANALISIS
 ## Make sure to include the metadata in the analysis directory
 ## Besides, install miniconda first, since the script will need a conda environment 
-## To ensure conda bins are updated, execute this command
+## To ensure conda bins are in the path, execute this command
 
 source ~/miniconda3/bin/activate
 
@@ -17,11 +17,10 @@ projectDir="/home/rmblazquez/Documentos/Resultados/RNAseq_acebuche"
 
 mkdir -p $projectDir/FastQC_raw $projectDir/Fastp $projectDir/FastQC_trimm $projectDir/Salmon
 
-## Generate FASTQ names list from the metadata CSV file
+## Generate FASTQ names list (since samples are named after 1 to 49)
 
 readsPath="/home/rmblazquez/Documentos/Data/reads/HN00199498/RawFASTQ"
 
-#cut -f2 $readsPath/RNAseq_olivo_design.csv | tail -n +2 > $projectDir/lista.txt
 for i in {1..49}; do echo $i; done > $projectDir/lista.txt
 
 ## Check raw sequences quality with FastQC
@@ -92,7 +91,7 @@ cat $projectDir/lista.txt | while read line; do
   -o $projectDir/Salmon/$line.quant
 done
 
-## Generate expression matrix
+## Generate expression matrix (optional)
 
 cat $projectDir/lista.txt | while read line; do
   cut -f1 $projectDir/Salmon/$line.quant/quant.sf > $projectDir/$line.referencia.sf
