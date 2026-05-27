@@ -391,3 +391,49 @@ goTermPlot(shade.mar.up.enrichedGOs[1:5,])
 goTermPlot(uvb.eur.up.enrichedGOs[1:5,])
 goTermPlot(uvb.gua.up.enrichedGOs[1:5,])
 goTermPlot(uvb.mar.up.enrichedGOs[1:5,])
+
+
+#### GO TERM ANALYSIS PARA MÓDULOS ####
+
+# Comprobar la significancia de cada módulo para cada comparación. Usar lista de geneIDs y FDRs con la mayor significancia.
+# Cargar librerías y funciones de topGO.
+
+# Importar universod de GO terms con topGO::readMappings()
+
+geneID2GO <- readMappings(file = "/home/rmblazquez/Documentos/Resultados/RNAseq_acebuche/topGO/Annotations/GOterm_universe_UniProt.csv")
+
+# Importar lista de genes por módulo de WGCNA
+
+genesByModule <- read.table("WGCNA_genesByModule.txt", sep = "\t", header = TRUE)
+
+# seleccionamos genes de módulos 3, 10 y 4 en los resultados de comparación control vs. sombra (3 y 10) y uvb (4)
+FDRs.shade.M3 <- res.int.shade[rownames(res.int.shade) %in% rownames(genesByModule[which(genesByModule$X2 == "brown"),]),]
+FDRs.shade.M10 <- res.int.shade[rownames(res.int.shade) %in% rownames(genesByModule[which(genesByModule$X2 == "purple"),]),]
+FDRs.uvb.M4 <- res.int.uvb[rownames(res.int.uvb) %in% rownames(genesByModule[which(genesByModule$X2 == "yellow"),]),]
+
+# Generamos la lista de comparaciones a analizar
+goterm.list.m3 <- list(shade.M3 = FDRs.shade.M3)
+goterm.list.m10 <- list(shade.M10 = FDRs.shade.M10)
+goterm.list.m4 <- list(uvb.M4 = FDRs.uvb.M4)
+
+# Realizamos los análisis con topGOloop
+setwd("/home/rmblazquez/Documentos/Resultados/RNAseq_acebuche/")
+topGOloop(goterm.list.m3)
+topGOloop(goterm.list.m10)
+topGOloop(goterm.list.m4)
+
+# GO terms (BP) de efecto general de tratamiento
+shade.M3.enrichedGOs <- read.delim("topGO/UniProt_GOs/modules/shade.M3_topGO_results_BP.txt",
+                                   sep = '\t',
+                                   header = TRUE)
+shade.M10.enrichedGOs <- read.delim("topGO/UniProt_GOs/modules/shade.M10_topGO_results_BP.txt",
+                                    sep = '\t',
+                                    header = TRUE)
+uvb.M4.enrichedGOs <- read.delim("topGO/UniProt_GOs/modules/uvb.M4_topGO_results_BP.txt",
+                                 sep = '\t',
+                                 header = TRUE)
+
+goTermPlot(shade.M3.enrichedGOs[1:20,])
+goTermPlot(shade.M10.enrichedGOs[1:20,])
+goTermPlot(uvb.M4.enrichedGOs[1:20,])
+
