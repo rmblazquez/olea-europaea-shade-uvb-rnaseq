@@ -24,9 +24,6 @@ library(EnhancedVolcano)
 library(pheatmap)
 library(reshape2)
 
-library(topGO)
-library(scales)
-library(forcats)
 source('/home/rmblazquez/Documentos/Scripts/RNAseq_olivo_functions.R')
 
 
@@ -48,28 +45,6 @@ design$time <- as.factor(design$time)
 levels(design$time) <- c("t0", "t1")
 rownames(design) <- design$sample
 design$sample <- NULL
-
-## Gráfico para explorar la relación entre GC y duplicados
-
-# ggplot(design.raw, aes(x = GC, y = Dups, color = treatment)) + 
-#   geom_point(size = 2.5, aes(shape = subspp)) + 
-#   theme_classic()
-
-# # Distribuciones
-# hist(design.raw$GC, breaks = 20)
-# hist(design.raw[which(design.raw$treatment == "Control"), ]$GC, breaks = 20)
-# hist(design.raw[which(design.raw$treatment == "Sombra"), ]$GC, breaks = 20)
-# hist(design.raw[which(design.raw$treatment == "UVB"), ]$GC, breaks = 20)
-
-# # Kolmogorov-Smirnoff para normalidad
-# ks.test(design.raw$GC, "pnorm")
-# ks.test(design.raw[which(design.raw$treatment == "Control"), ]$GC, "pnorm")
-# ks.test(design.raw[which(design.raw$treatment == "Sombra"), ]$GC, "pnorm")
-# ks.test(design.raw[which(design.raw$treatment == "UVB"), ]$GC, "pnorm")
-
-# # Pruebas de Kruskal-Wallis y Dunn post-hoc test
-# kruskal.test(design.raw$GC, design.raw$treatment)
-# dunn.test(design.raw$GC, design.raw$treatment)
 
 
 #### GENERAR MATRIZ DE EXPRESIÓN ####
