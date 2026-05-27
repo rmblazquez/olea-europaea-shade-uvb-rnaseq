@@ -13,15 +13,6 @@ library("RColorBrewer")
 library(tidyverse)
 library(dplyr)
 
-library(dunn.test)
-
-library(tximport)
-library(DESeq2)
-
-library(edgeR)
-library(ggvenn)
-library(EnhancedVolcano)
-library(pheatmap)
 library(reshape2)
 
 library(topGO)
