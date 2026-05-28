@@ -376,6 +376,8 @@ pheatmap(MEcor, color = colorRampPalette(brewer.pal(n = 7, name = "RdBu"))(100))
 # Relacionamos conteos normalizados, identificadores de genes, y módulos
 # Primero, cargamos los conteos normalizados de todos los genes analizados en WGCNA
 
+# normFilteredCounts <- counts(dds.all, normalize = TRUE)
+
 exprGenes <- as.data.frame(normFilteredCounts) # los conteos normalizados de dds.all deben estar aquí cargados
 
 # Incluír columna de módulos en los conteos
