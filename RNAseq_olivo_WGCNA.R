@@ -463,3 +463,29 @@ corGS_GMM(gsdata.int.shade, "M3", "brown")
 
 corGS_GMM(gsdata.int.uvb, "M10", "purple")
 
+
+# Generar boxplots para efectos generales de sombra y UVB en 12 semanas para M3 y M10
+# Plot para M3
+bxplt1 <- ggboxplot(data.ntwk$MEs[which(data.ntwk$MEs$time == "t1"), ], 
+                    "treatment", 
+                    "MEbrown", 
+                    color = "treatment",
+                    palette = c("black", "lightblue", "red"), 
+                    repel = T, 
+                    font.label = list(size = 14, face = "plain"), 
+                    add = "jitter",
+                    ggtheme = theme_classic())
+
+# Plot para M10
+bxplt2 <- ggboxplot(data.ntwk$MEs[which(data.ntwk$MEs$time == "t1"), ], 
+                    "treatment", 
+                    "MEpurple", 
+                    color = "treatment", 
+                    palette = c("black", "lightblue", "red"), 
+                    repel = T, 
+                    font.label = list(size = 14, face = "plain"), 
+                    add = "jitter",
+                    ggtheme = theme_classic())
+
+# Organizar la figura
+grid.arrange(bxplt1, bxplt2, ncol = 2)
