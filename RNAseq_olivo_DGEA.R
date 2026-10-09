@@ -265,7 +265,7 @@ nrow(res.bkg.gua_mar[which(res.bkg.gua_mar$padj < 0.05), ])
 # datos t1
 
 colorTreatment <- design$treatment[25:49]
-levels(colorTreatment) <- c('green', 'blue', 'red')
+levels(colorTreatment) <- c('lightblue', 'black', 'red')
 
 shapeVariant <- design$variant[25:49]
 levels(shapeVariant) <- c(23, 24, 25)
@@ -281,7 +281,7 @@ plotMDS(dds.int, gene.selection = "common",
 # datos t0
 
 colorTreatment2 <- design$treatment[1:24]
-levels(colorTreatment2) <- c('seagreen', 'purple', 'orange')
+levels(colorTreatment2) <- c('turquoise', 'darkgrey', 'tomato')
 
 shapeVariant2 <- design$variant[1:24]
 levels(shapeVariant2) <- c(23, 24, 25)
@@ -297,7 +297,7 @@ plotMDS(dds.bkg, gene.selection = "common",
 # datos t0 y t1
 
 colorTreatmentTime <- as.factor(paste0(design$treatment, design$time))
-levels(colorTreatmentTime) <- c('seagreen', 'green', 'purple','blue', 'orange', 'red')
+levels(colorTreatmentTime) <- c('turquoise', 'lightblue', 'darkgrey', 'black', 'tomato', 'red')
 
 shapeVariantAll <- design$variant
 levels(shapeVariantAll) <- c(23, 24, 25)
