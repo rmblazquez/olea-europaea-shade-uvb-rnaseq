@@ -174,19 +174,19 @@ degList.treatment <- list(shade.up = genes_sig.int.shade[which(genes_sig.int.sha
                           uvb.up = genes_sig.int.uvb[which(genes_sig.int.uvb$log2FoldChange > 0),],
                           uvb.down = genes_sig.int.uvb[which(genes_sig.int.uvb$log2FoldChange < 0),])
 
-degList.variants <- list(eur_gua.eur = genes_sig.int.eur_gua[which(genes_sig.int.eur_gua$log2FoldChange > 0),], 
-                         eur_gua.gua = genes_sig.int.eur_gua[which(genes_sig.int.eur_gua$log2FoldChange < 0),], 
-                         eur_mar.eur = genes_sig.int.eur_mar[which(genes_sig.int.eur_mar$log2FoldChange > 0),],
-                         eur_mar.mar = genes_sig.int.eur_mar[which(genes_sig.int.eur_mar$log2FoldChange < 0),],
-                         gua_mar.gua = genes_sig.int.gua_mar[which(genes_sig.int.gua_mar$log2FoldChange > 0),],
-                         gua_mar.mar = genes_sig.int.gua_mar[which(genes_sig.int.gua_mar$log2FoldChange < 0),])
+degList.variants <- list(eur_gua.eur = genes_sig.int.eur_gua[which(genes_sig.int.eur_gua$log2FoldChange < 0),], 
+                         eur_gua.gua = genes_sig.int.eur_gua[which(genes_sig.int.eur_gua$log2FoldChange > 0),], 
+                         eur_mar.eur = genes_sig.int.eur_mar[which(genes_sig.int.eur_mar$log2FoldChange < 0),],
+                         eur_mar.mar = genes_sig.int.eur_mar[which(genes_sig.int.eur_mar$log2FoldChange > 0),],
+                         gua_mar.gua = genes_sig.int.gua_mar[which(genes_sig.int.gua_mar$log2FoldChange < 0),],
+                         gua_mar.mar = genes_sig.int.gua_mar[which(genes_sig.int.gua_mar$log2FoldChange > 0),])
 
-degList.bkgrVar <- list(bkg.eur_gua.eur = genes_sig.bkg.eur_gua[which(genes_sig.bkg.eur_gua$log2FoldChange > 0),], 
-                        bkg.eur_gua.gua = genes_sig.bkg.eur_gua[which(genes_sig.bkg.eur_gua$log2FoldChange < 0),], 
-                        bkg.eur_mar.eur = genes_sig.bkg.eur_mar[which(genes_sig.bkg.eur_mar$log2FoldChange > 0),],
-                        bkg.eur_mar.mar = genes_sig.bkg.eur_mar[which(genes_sig.bkg.eur_mar$log2FoldChange < 0),],
-                        bkg.gua_mar.gua = genes_sig.bkg.gua_mar[which(genes_sig.bkg.gua_mar$log2FoldChange > 0),],
-                        bkg.gua_mar.mar = genes_sig.bkg.gua_mar[which(genes_sig.bkg.gua_mar$log2FoldChange < 0),])
+degList.bkgrVar <- list(bkg.eur_gua.eur = genes_sig.bkg.eur_gua[which(genes_sig.bkg.eur_gua$log2FoldChange < 0),], 
+                        bkg.eur_gua.gua = genes_sig.bkg.eur_gua[which(genes_sig.bkg.eur_gua$log2FoldChange > 0),], 
+                        bkg.eur_mar.eur = genes_sig.bkg.eur_mar[which(genes_sig.bkg.eur_mar$log2FoldChange < 0),],
+                        bkg.eur_mar.mar = genes_sig.bkg.eur_mar[which(genes_sig.bkg.eur_mar$log2FoldChange > 0),],
+                        bkg.gua_mar.gua = genes_sig.bkg.gua_mar[which(genes_sig.bkg.gua_mar$log2FoldChange < 0),],
+                        bkg.gua_mar.mar = genes_sig.bkg.gua_mar[which(genes_sig.bkg.gua_mar$log2FoldChange > 0),])
 
 degList.withinVar <- list(shade.eur.up = genes_sig.int.shade.eur[which(genes_sig.int.shade.eur$log2FoldChange > 0),],
                           shade.eur.down = genes_sig.int.shade.eur[which(genes_sig.int.shade.eur$log2FoldChange < 0),],
