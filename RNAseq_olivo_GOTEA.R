@@ -266,7 +266,7 @@ int.overlap.enrichedGOs <- read.delim("topGO/UniProt_GOs/treatment/treatment.ove
                                        sep = '\t',
                                        header = TRUE)
 
-goTermPlot(two.overlap.enrichedGOs[1:5,])
+goTermPlot(int.overlap.enrichedGOs[1:5,])
 
 
 # GO terms (BP) de efecto general de variante
@@ -295,12 +295,12 @@ int.gua_mar.mar.enrichedGOs <- read.delim("topGO/UniProt_GOs/variant/gua_mar.mar
                                           sep = '\t',
                                           header = TRUE)
 
-goTermPlot(two.eur_gua.eur.enrichedGOs[1:5,])
-goTermPlot(two.eur_gua.gua.enrichedGOs[1:5,])
-goTermPlot(two.eur_mar.eur.enrichedGOs[1:5,])
-goTermPlot(two.eur_mar.mar.enrichedGOs[1:5,])
-goTermPlot(two.gua_mar.gua.enrichedGOs[1:5,])
-goTermPlot(two.gua_mar.mar.enrichedGOs[1:5,])
+goTermPlot(int.eur_gua.eur.enrichedGOs[1:5,])
+goTermPlot(int.eur_gua.gua.enrichedGOs[1:5,])
+goTermPlot(int.eur_mar.eur.enrichedGOs[1:5,])
+goTermPlot(int.eur_mar.mar.enrichedGOs[1:5,])
+goTermPlot(int.gua_mar.gua.enrichedGOs[1:5,])
+goTermPlot(int.gua_mar.mar.enrichedGOs[1:5,])
 
 # GO terms (BP) de efecto de fondo de variante (t0)
 
