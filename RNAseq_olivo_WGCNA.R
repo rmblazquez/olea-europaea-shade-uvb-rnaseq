@@ -337,7 +337,7 @@ while (MEcounter <= length(MEcolors)){
 		 as.numeric(Treatment.kw$statistic), 
 		 as.numeric(Treatment.kw$p.value), 
 		 as.numeric(Variant.kw$statistic), as.numeric(Variant.kw$p.value), 
-		 as.numeric(Time.kw$statistic), as.numeric(Variant.kw$p.value))
+		 as.numeric(Time.kw$statistic), as.numeric(Time.kw$p.value))
   kw.results <- rbind(kw.results, my_vector)
   MEcounter <- MEcounter + 1
 }
