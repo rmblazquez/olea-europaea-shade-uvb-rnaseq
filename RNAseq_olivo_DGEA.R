@@ -108,11 +108,15 @@ res.int.shade.eur <- results(dds.int,
                              contrast = c(-1,0,0,1,0,0,0,0,0), 
                              alpha = 0.05) 
 
+write.csv(res.int.shade, file = "DESeq2/res.int.shade.eur.csv", quote = FALSE)
+
 # Comparar control vs. uvb en europaea: c(-1,0,0,0,0,0,1,0,0) 
 
 res.int.uvb.eur <- results(dds.int, 
                            contrast = c(-1,0,0,0,0,0,1,0,0), 
                            alpha = 0.05) 
+
+write.csv(res.int.shade, file = "DESeq2/res.int.uvb.eur.csv", quote = FALSE)
 
 # Comparar control vs. shade en guanchica: c(0,-1,0,0,1,0,0,0,0) 
 
@@ -120,11 +124,15 @@ res.int.shade.gua <- results(dds.int,
                              contrast = c(0,-1,0,0,1,0,0,0,0), 
                              alpha = 0.05) 
 
+write.csv(res.int.shade, file = "DESeq2/res.int.shade.gua.csv", quote = FALSE)
+
 # Comparar control vs. uvb en guanchica: c(0,-1,0,0,0,0,0,1,0)
 
 res.int.uvb.gua <- results(dds.int, 
                            contrast = c(0,-1,0,0,0,0,0,1,0), 
                            alpha = 0.05) 
+
+write.csv(res.int.shade, file = "DESeq2/res.int.uvb.gua.csv", quote = FALSE)
 
 # Comparar control vs. shade en maroccana: c(0,0,-1,0,0,1,0,0,0) 
 
@@ -132,11 +140,15 @@ res.int.shade.mar <- results(dds.int,
                              contrast = c(0,0,-1,0,0,1,0,0,0), 
                              alpha = 0.05) 
 
+write.csv(res.int.shade, file = "DESeq2/res.int.shade.mar.csv", quote = FALSE)
+
 # Comparar control vs. uvb en maroccana: c(0,0,-1,0,0,0,0,0,1)
 
 res.int.uvb.mar <- results(dds.int, 
                            contrast = c(0,0,-1,0,0,0,0,0,1), 
                            alpha = 0.05) 
+
+write.csv(res.int.shade, file = "DESeq2/res.int.uvb.mar.csv", quote = FALSE)
 
 ## Comparación entre control y tratamientos a nivel general
 
@@ -146,11 +158,15 @@ res.int.shade <- results(dds.int,
                          contrast = c(-1,-1,-1,1,1,1,0,0,0), 
                          alpha = 0.05) 
 
+write.csv(res.int.shade, file = "DESeq2/res.int.shade.csv", quote = FALSE)
+
 # Comparar control vs. UVB: c(-1,-1,-1,0,0,0,1,1,1)
 
 res.int.uvb <- results(dds.int, 
                        contrast = c(-1,-1,-1,0,0,0,1,1,1), 
                        alpha = 0.05) 
+
+write.csv(res.int.uvb, file = "DESeq2/res.int.uvb.csv", quote = FALSE)
 
 ## Comparación entre variantes a nivel general
 
@@ -195,17 +211,23 @@ res.bkg.eur_gua <- results(dds.bkg,
                            contrast = c(-1,1,0,-1,1,0,-1,1,0),
                            alpha = 0.05)
 
+write.csv(res.int.shade, file = "DESeq2/res.bkg.eur_gua.csv", quote = FALSE)
+
 # Comparar europaea vs. maroccana: c(-1,0,1,-1,0,1,-1,0,1)
 
 res.bkg.eur_mar <- results(dds.bkg,
                            contrast = c(-1,0,1,-1,0,1,-1,0,1),
                            alpha = 0.05)
 
+write.csv(res.int.shade, file = "DESeq2/res.bkg.eur_mar.csv", quote = FALSE)
+
 # Comparar guanchica vs. maroccana: c(0,-1,1,0,-1,1,0,-1,1)
 
 res.bkg.gua_mar <- results(dds.bkg,
                            contrast = c(0,-1,1,0,-1,1,0,-1,1),
                            alpha = 0.05)
+
+write.csv(res.int.shade, file = "DESeq2/res.bkg.gua_mar.csv", quote = FALSE)
 
 ## Comparación con todos los tiempos (para WGCNA)
 
