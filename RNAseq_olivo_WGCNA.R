@@ -14,6 +14,7 @@ library(ggpubr)
 library(RColorBrewer)
 library(gridExtra)
 library(pheatmap)
+library(FSA) # función dunnTest()
 
 enableWGCNAThreads(nThreads = 12)
 
@@ -322,29 +323,70 @@ text(l.x, l.y, labels = row.names(MEpca$rotation), col = "red", pos = l.pos)
 
 MEcolors <- colnames(data.ntwk$MEs[1:16]) # range from 1 to total number of modules
 
-# Hacemos pruebas de Kruskal-Wallis para cada módulo
+# Hacemos pruebas de Kruskal-Wallis y pruebas post hoc de Dunn para cada módulo
 
 MEcounter <- 1
 kw.results <- c()
+dunn.results <- c()
 while (MEcounter <= length(MEcolors)){
+  # Kruskal tests para tratamiento, subespecie y tiempo
   Treatment.kw <- kruskal.test(as.formula(paste0("data.ntwk$MEs$", MEcolors[MEcounter], " ~ data.ntwk$MEs$treatment")))
   Variant.kw <- kruskal.test(as.formula(paste0("data.ntwk$MEs$", MEcolors[MEcounter], " ~ data.ntwk$MEs$variant")))
   Time.kw <- kruskal.test(as.formula(paste0("data.ntwk$MEs$", MEcolors[MEcounter], " ~ data.ntwk$MEs$time")))
   MEvalues <- as.data.frame(data.ntwk$MEs[MEcounter])
-  my_title <- MEcolors[MEcounter]
-  my_vector <- c(as.character(my_title), 
-		 as.character(Treatment.kw$data.name), 
-		 as.numeric(Treatment.kw$statistic), 
-		 as.numeric(Treatment.kw$p.value), 
-		 as.numeric(Variant.kw$statistic), as.numeric(Variant.kw$p.value), 
-		 as.numeric(Time.kw$statistic), as.numeric(Time.kw$p.value))
-  kw.results <- rbind(kw.results, my_vector)
+  my_title.kw <- MEcolors[MEcounter]
+  my_vector.kw <- c(as.character(my_title.kw), 
+		                as.character(Treatment.kw$data.name), 
+		                as.numeric(Treatment.kw$statistic), 
+		                as.numeric(Treatment.kw$p.value), 
+		                as.numeric(Variant.kw$statistic), 
+		                as.numeric(Variant.kw$p.value), 
+		                as.numeric(Time.kw$statistic), 
+		                as.numeric(Time.kw$p.value))
+  kw.results <- rbind(kw.results, my_vector.kw)
+  # Prueba de Dunn para tratamiento y subespecie
+  Treatment.dunn <- dunnTest(as.formula(paste0("data.ntwk$MEs$", MEcolors[MEcounter], " ~ data.ntwk$MEs$treatment")))
+  Variant.dunn <- dunnTest(as.formula(paste0("data.ntwk$MEs$", MEcolors[MEcounter], " ~ data.ntwk$MEs$variant")))
+  MEvalues <- as.data.frame(data.ntwk$MEs[MEcounter])
+  my_title.dunn <- MEcolors[MEcounter]
+  my_vector.dunn <- c(as.character(my_title.dunn), 
+                      as.character(Treatment.dunn$res$Comparison[1]), # control vs shade
+                      as.numeric(Treatment.dunn$res$Z[1]), 
+                      as.numeric(Treatment.dunn$res$P.adj[1]), 
+                      as.character(Treatment.dunn$res$Comparison[2]), # control vs uvb
+                      as.numeric(Treatment.dunn$res$Z[2]), 
+                      as.numeric(Treatment.dunn$res$P.adj[2]), 
+                      as.character(Variant.dunn$res$Comparison[1]), # europaea vs guanchica
+                      as.numeric(Variant.dunn$res$Z[1]),
+                      as.numeric(Variant.dunn$res$P.adj[1]),
+                      as.character(Variant.dunn$res$Comparison[2]), # europaea vs maroccana
+                      as.numeric(Variant.dunn$res$Z[2]),
+                      as.numeric(Variant.dunn$res$P.adj[2]),
+                      as.character(Variant.dunn$res$Comparison[3]), # guanchica vs maroccana
+                      as.numeric(Variant.dunn$res$Z[3]),
+                      as.numeric(Variant.dunn$res$P.adj[3])
+  )
+  dunn.results <- rbind(dunn.results, my_vector.dunn)
   MEcounter <- MEcounter + 1
 }
 
+# Añadimos nombres de variables a test de Kruskal
+
 rownames(kw.results) <- kw.results[,1]
 colnames(kw.results) <- c("module", "contrast", "treatment.stat", "treatment.pvalue", "variant.stat", "variant.pvalue", "time.stat", "time.pvalue")
-write.table(kw.results, "ME_KWtest_results.txt", sep = "\t", quote = FALSE, rownames = FALSE)
+write.table(kw.results, "ME_KWtest_results.txt", sep = "\t", quote = FALSE)
+
+# Añadimos nombres de variables a test de Dunn
+
+rownames(dunn.results) <- dunn.results[,1]
+colnames(dunn.results) <- c("module", 
+                            "contrast.1", "stat.1", "Padj.1",
+                            "contrast.2", "stat.2", "Padj.2",
+                            "contrast.3", "stat.3", "Padj.3",
+                            "contrast.4", "stat.4", "Padj.4",
+                            "contrast.5", "stat.5", "Padj.5"
+)
+write.table(dunn.results, "ME_DunnTest_results.txt", sep = "\t", quote = FALSE)
 
 # Generamos boxplots para todos los módulos
 
