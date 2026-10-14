@@ -451,6 +451,10 @@ int.uvb.mar <- res.int.uvb.mar[rownames(res.int.uvb.mar) %in% rownames(exprGenes
 exprGenes$geneSig.int.shade <- -log(as.numeric(int.shade$padj) + 0.001, 2) 
 exprGenes$geneSig.int.uvb <- -log(as.numeric(int.uvb$padj) + 0.001, 2) 
 
+exprGenes$geneSig.bkg.eur_gua <- -log(as.numeric(bkg.eur_gua$padj) + 0.001, 2)
+exprGenes$geneSig.bkg.eur_mar <- -log(as.numeric(bkg.eur_mar$padj) + 0.001, 2)
+exprGenes$geneSig.bkg.gua_mar <- -log(as.numeric(bkg.gua_mar$padj) + 0.001, 2)
+
 exprGenes$geneSig.int.shade.eur <- -log(as.numeric(int.shade.eur$padj) + 0.001, 2) 
 exprGenes$geneSig.int.shade.gua <- -log(as.numeric(int.shade.gua$padj) + 0.001, 2) 
 exprGenes$geneSig.int.shade.mar <- -log(as.numeric(int.shade.mar$padj) + 0.001, 2) 
@@ -467,10 +471,22 @@ blockColors <- names(sort(table(exprGenes$module), decreasing = T))
 
 # para sombra 
 gsdata.int.shade.dsum <- geneSig_calc(exprGenes$geneSig.int.shade)
+colnames(gsdata.int.shade.dsum)[2] <- "geneSig.int.shade"
 
 # para UVB
 gsdata.int.uvb.dsum <- geneSig_calc(exprGenes$geneSig.int.uvb)
+colnames(gsdata.int.uvb.dsum)[2] <- "geneSig.int.uvb"
 
+# para backgrounds
+# eur_gua
+gsdata.bkg.eur_gua.dsum <- geneSig_calc(exprGenes$geneSig.bkg.eur_gua)
+colnames(gsdata.bkg.eur_gua.dsum)[2] <- "geneSig.bkg.eur_gua"
+# eur_mar
+gsdata.bkg.eur_mar.dsum <- geneSig_calc(exprGenes$geneSig.bkg.eur_mar)
+colnames(gsdata.bkg.eur_mar.dsum)[2] <- "geneSig.bkg.eur_mar"
+# gua_mar
+gsdata.bkg.gua_mar.dsum <- geneSig_calc(exprGenes$geneSig.bkg.gua_mar)
+colnames(gsdata.bkg.gua_mar.dsum)[2] <- "geneSig.bkg.gua_mar"
 
 # Graficar los valores de Gene Significance por módulo
 
@@ -492,6 +508,33 @@ gsdata.int.uvb.plot <- ggplot(gsdata.int.uvb.dsum, aes(x = module, y = geneSig.i
 
 grid.arrange(gsdata.int.shade.plot, gsdata.int.uvb.plot,  ncol = 1, nrow = 2)
 
+# subespecies
+# para eur_gua
+gsdata.bkg.eur_gua.plot <- ggplot(gsdata.bkg.eur_gua.dsum, aes(x = module, y = geneSig.bkg.eur_gua, fill = module)) + 
+  geom_bar(stat = "identity", color = "black", 
+           position = position_dodge()) +
+  geom_errorbar(aes(ymin = geneSig.bkg.eur_gua - se, ymax = geneSig.bkg.eur_gua + se), width=.2,
+                position = position_dodge(.9)) +
+  scale_fill_manual("Module", values = blockColors[2:17])
+
+# para eur_mar
+gsdata.bkg.eur_mar.plot <- ggplot(gsdata.bkg.eur_mar.dsum, aes(x = module, y = geneSig.bkg.eur_mar, fill = module)) + 
+  geom_bar(stat = "identity", color = "black", 
+           position = position_dodge()) +
+  geom_errorbar(aes(ymin = geneSig.bkg.eur_mar - se, ymax = geneSig.bkg.eur_mar + se), width=.2,
+                position = position_dodge(.9)) +
+  scale_fill_manual("Module", values = blockColors[2:17])
+
+# para gua_mar
+gsdata.bkg.gua_mar.plot <- ggplot(gsdata.bkg.gua_mar.dsum, aes(x = module, y = geneSig.bkg.gua_mar, fill = module)) + 
+  geom_bar(stat = "identity", color = "black", 
+           position = position_dodge()) +
+  geom_errorbar(aes(ymin = geneSig.bkg.gua_mar - se, ymax = geneSig.bkg.gua_mar + se), width=.2,
+                position = position_dodge(.9)) +
+  scale_fill_manual("Module", values = blockColors[2:17])
+
+grid.arrange(gsdata.bkg.eur_gua.plot, gsdata.bkg.eur_mar.plot, gsdata.bkg.gua_mar.plot, nrow = 3)
+
 
 ## Calcular "gene module membership" (correlación entre expresión de genes y valor del eigengen del módulo)
 
@@ -505,6 +548,20 @@ corGS_GMM(gsdata.int.shade, "M3", "brown")
 
 corGS_GMM(gsdata.int.uvb, "M10", "purple")
 
+# Módulo 1 (turquoise): tiene alta gene significance en eur_gua y eur_mar
+
+corGS_GMM(gsdata.bkg.eur_gua, "M1", "turquoise")
+corGS_GMM(gsdata.bkg.eur_mar, "M1", "turquoise")
+
+# Módulo 14 (salmon): tiene alta gene significance en eur_gua y eur_mar
+
+corGS_GMM(gsdata.bkg.eur_gua, "M14", "salmon")
+corGS_GMM(gsdata.bkg.eur_mar, "M14", "salmon")
+
+# Módulo 6 (red): tiene alta gene significance en eur_mar y gua_mar
+
+corGS_GMM(gsdata.bkg.eur_mar, "M6", "red")
+corGS_GMM(gsdata.bkg.gua_mar, "M6", "red")
 
 # Generar boxplots para efectos generales de sombra y UVB en 12 semanas para M3 y M10
 # Plot para M3
@@ -531,3 +588,39 @@ bxplt2 <- ggboxplot(data.ntwk$MEs[which(data.ntwk$MEs$time == "t1"), ],
 
 # Organizar la figura
 grid.arrange(bxplt1, bxplt2, ncol = 2)
+
+# Generar boxplots para efectos generales de subespecies en t0 para M1, M14 y M6
+# Plot para M1
+bxplt3 <- ggboxplot(data.ntwk$MEs[which(data.ntwk$MEs$time == "t0"), ], 
+                    "variant", 
+                    "MEturquoise", 
+                    color = "variant",
+                    palette = c("blue", "orange", "lightgreen"), 
+                    repel = T, 
+                    font.label = list(size = 14, face = "plain"), 
+                    add = "jitter",
+                    ggtheme = theme_classic())
+
+# Plot para M14
+bxplt4 <- ggboxplot(data.ntwk$MEs[which(data.ntwk$MEs$time == "t0"), ], 
+                    "variant", 
+                    "MEsalmon", 
+                    color = "variant",
+                    palette = c("blue", "orange", "lightgreen"), 
+                    repel = T, 
+                    font.label = list(size = 14, face = "plain"), 
+                    add = "jitter",
+                    ggtheme = theme_classic())
+
+# Plot para M6
+bxplt5 <- ggboxplot(data.ntwk$MEs[which(data.ntwk$MEs$time == "t0"), ], 
+                    "variant", 
+                    "MEred", 
+                    color = "variant",
+                    palette = c("blue", "orange", "lightgreen"), 
+                    repel = T, 
+                    font.label = list(size = 14, face = "plain"), 
+                    add = "jitter",
+                    ggtheme = theme_classic())
+
+grid.arrange(bxplt3, bxplt4, bxplt5, nrow = 3)
